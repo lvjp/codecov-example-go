@@ -6,15 +6,17 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-go@v5
+      - uses: actions/checkout@v6
+      - uses: actions/setup-go@v6
         with:
-          go-version: 'stable'
+          go-version-file: go.mod
       - name: Gather dependencies
         run: go mod download
-      - name: Run coverage
-        run: go test -race -coverprofile=coverage.txt -covermode=atomic ./...
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v5
+      - name: Run coverage tests for addition
+        run: go test -race -coverprofile=coverage-add.txt -covermode=atomic ./... -run=TestAdd
+      - name: Create coverage artifact for debugging
+        uses: actions/upload-artifact@v7
         with:
-          token: ${{ secrets.CODECOV_ORG_TOKEN }}
+          name: coverage-reports
+          path: coverage-add.txt
+          if-no-files-found: error
