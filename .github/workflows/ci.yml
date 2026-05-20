@@ -14,11 +14,15 @@ jobs:
         run: go mod download
       - name: Run coverage tests for addition
         run: go test -race -coverprofile=coverage-add.txt -covermode=atomic ./... -run=TestAdd
+      - name: Run coverage tests for substraction
+        run: go test -race -coverprofile=coverage-substract.txt -covermode=atomic ./... -run=TestSubtract
       - name: Create coverage artifact for debugging
         uses: actions/upload-artifact@v7
         with:
           name: coverage-reports
-          path: coverage-add.txt
+          path: |
+            coverage-add.txt
+            coverage-substract.txt
           if-no-files-found: error
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v6
