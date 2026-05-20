@@ -25,4 +25,4 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: coverage-add.txt
-          disable-search: true
+          disable_search: true
